@@ -100,5 +100,67 @@ responseArea.addEventListener('blur', function () {
     this.style.borderColor = '#3498db';
 });
 
-// Inicializar
+// --- FUNCIONALIDAD ADICIONAL: BOTÓN PARA CORREGIR ERRORES COMUNES DE DICTADO ---
+
+// Crear botón dinámicamente y añadirlo dentro de .controls (asegúrate que exista)
+const correctDictationBtn = document.createElement("button");
+correctDictationBtn.className = "btn";
+correctDictationBtn.textContent = "Corregir dictado";
+correctDictationBtn.style.marginTop = "15px";
+document.querySelector(".controls").appendChild(correctDictationBtn);
+
+// Mapa con correcciones para palabras mal entendidas por el dictado de voz
+const correctionMap = {
+    "richard": "recharge",
+    "matt": "mate",
+    "john": "join",
+    "joseph": "yourself",
+    "susan": "season",
+    "michael": "cycle",
+    "david": "daily",
+    "william": "volume",
+    "jessica": "just a cup",
+    "charles": "charts",
+    "andrew": "undo",
+    "joshua": "just you",
+    "anna": "a now",
+    "brian": "brighten",
+    "karen": "care in",
+    "steven": "still even",
+    "kevin": "cabin",
+    "patrick": "path trick",
+    "george": "gorge",
+    "linda": "leaned a",
+    "robert": "robot",
+    "emily": "email he",
+    "thomas": "to must",
+    "nancy": "nans he",
+    "barbara": "bar broth",
+    "daniel": "done you",
+    "sandra": "sound raw",
+    "donald": "down hold",
+    "ashley": "as lee",
+    "kimberly": "came barely",
+    "edward": "it word",
+    "jason": "chase on"
+};
+
+// Evento que corrige el texto al hacer clic en el botón
+correctDictationBtn.addEventListener("click", () => {
+    let text = responseArea.value;
+
+    for (const [wrong, correct] of Object.entries(correctionMap)) {
+        const regex = new RegExp(`\\b${wrong}\\b`, "gi");
+        text = text.replace(regex, match => {
+            // Respeta mayúsculas iniciales
+            return match[0] === match[0].toUpperCase()
+                ? correct.charAt(0).toUpperCase() + correct.slice(1)
+                : correct;
+        });
+    }
+
+    responseArea.value = text;
+});
+
+// Inicializar primera pregunta
 updateQuestion();
