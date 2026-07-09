@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
-<script src="chamba.js"></script>    
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Práctica de Inglés - Cuestionario Interactivo</title>
+  
     <style>
         * {
             margin: 0;
@@ -251,5 +252,42 @@
 </div>
 
 <script src="chamba.js"></script>
+
+<script>
+let current = 0;
+
+const questionText = document.getElementById("question-text");
+const prevBtn = document.getElementById("prev-btn");
+const nextBtn = document.getElementById("next-btn");
+const randomBtn = document.getElementById("random-btn");
+
+function mostrarPregunta() {
+    questionText.textContent = questions[current];
+    document.querySelector(".question-number").textContent = current + 1;
+
+    prevBtn.disabled = current === 0;
+}
+
+mostrarPregunta();
+
+nextBtn.addEventListener("click", () => {
+    current++;
+    if (current >= questions.length) current = 0;
+    mostrarPregunta();
+});
+
+prevBtn.addEventListener("click", () => {
+    if (current > 0) {
+        current--;
+        mostrarPregunta();
+    }
+});
+
+randomBtn.addEventListener("click", () => {
+    current = Math.floor(Math.random() * questions.length);
+    mostrarPregunta();
+});
+</script>
+
 </body>
 </html>
